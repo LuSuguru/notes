@@ -59,8 +59,10 @@ exports.increment = function (val) {
       - 包装之后的代码会通过vm原生模块的`runInThisContext()`方法执行，返回一个具体的function对象
       - 将参数传递给这个function执行，执行之后，模块的exports属性被返回给了调用方，exports属性上的任何方法和属性都可以被外部调用到
       - 由于exports对象是通过参数的方式传入的，直接赋值形参会改变形参的引用，但不能改变作用域外的值，所以要达到`require`引入一个类的效果，请赋值给`module.exports`对象
+   2. .node文件：C/C++编写的扩展文件，Node调用`process.dlopen`方法进行加载和执行，`dlopen()`在Windows和*nix平台有不同的实现，通过libuv兼容层进行了封装
+   3. .json文件：Node利用fs模块同步读取JSON文件的内容之后，调用JSON.parse()方法得到对象，然后将它赋给模块对象的exports，以供外部调用
+   4. 其他文件：它们都被当做.js文件载入
 
-      
 ```javascript
 (function (exports, require, module, __filename, __dirname) {
   var math = require('math')
@@ -69,9 +71,6 @@ exports.increment = function (val) {
   }
 })
 ```
-   2. .node文件：C/C++编写的扩展文件，Node调用`process.dlopen`方法进行加载和执行，`dlopen()`在Windows和*nix平台有不同的实现，通过libuv兼容层进行了封装
-   3. .json文件：Node利用fs模块同步读取JSON文件的内容之后，调用JSON.parse()方法得到对象，然后将它赋给模块对象的exports，以供外部调用
-   4. 其他文件：它们都被当做.js文件载入
 
 #### 模块调用栈
 <img src="./assets/2/调用栈.png" width="350" height="250" />
