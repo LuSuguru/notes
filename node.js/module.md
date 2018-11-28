@@ -53,12 +53,14 @@ exports.increment = function (val) {
       - 若当前目录没有定位到文件，则进入下一个模块路径进行查找，直到路径数组遍历完毕，依然没有找到，则抛出异常
 
 - 模块编译
-每一个编译成功的模块都会将其文件路径作为索引缓存在`Module._cache`对象上
+   每一个编译成功的模块都会将其文件路径作为索引缓存在`Module._cache`对象上
    1. .js文件：通过fs模块同步读取文件后编译执行
       - 在编译的过程中，Node对获取的js文件内容会进行头尾包装
       - 包装之后的代码会通过vm原生模块的`runInThisContext()`方法执行，返回一个具体的function对象
       - 将参数传递给这个function执行，执行之后，模块的exports属性被返回给了调用方，exports属性上的任何方法和属性都可以被外部调用到
       - 由于exports对象是通过参数的方式传入的，直接赋值形参会改变形参的引用，但不能改变作用域外的值，所以要达到`require`引入一个类的效果，请赋值给`module.exports`对象
+
+      
 ```javascript
 (function (exports, require, module, __filename, __dirname) {
   var math = require('math')
