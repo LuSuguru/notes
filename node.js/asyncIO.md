@@ -32,7 +32,9 @@
 
 #### 现实的异步I/O
 现实中采用多线程的方式，通过让部分线程进行阻塞I/O或者非阻塞I/0加轮询技术来完成数据获取，让另一个线程进行计算处理，通过线程之间的通信将I/O得到的数据进行传递
+
 <img src="./assets/3/现实IO.png" width="400" height="255" />
+
 - *nix:自定义线程池
 - windows:IOCP
 <img src="./assets/3/架构.png" width="225" height="195" />
