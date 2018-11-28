@@ -3,7 +3,7 @@
 #### CommonJS的模块规范
 - 模块引用：通过`require()`方法引用
 - 模块定义：上下文提供了`exports`对象用于导出当前模块的方法和变量，并且它是唯一导出的出口。
-   在模块中，还存在一个`module`对象，它代表模块本身，而exports是module属性
+   在模块中，还存在一个`module`对象，它代表模块本身，而`exports`是`module`属性
 - 模块标识：传递给`require()`方法的参数，必须是符合小驼峰命名的字符串，或者相对路径、绝对路径
 ``` javascript
 // math.js
@@ -57,10 +57,10 @@ exports.increment = function (val) {
    1. .js文件：通过fs模块同步读取文件后编译执行
       - 在编译的过程中，Node对获取的js文件内容会进行头尾包装
       - 包装之后的代码会通过vm原生模块的`runInThisContext()`方法执行，返回一个具体的function对象
-      - 将参数传递给这个function执行，执行之后，模块的exports属性被返回给了调用方，exports属性上的任何方法和属性都可以被外部调用到
+      - 将参数传递给这个`function`执行，执行之后，模块的exports属性被返回给了调用方，exports属性上的任何方法和属性都可以被外部调用到
       - 由于exports对象是通过参数的方式传入的，直接赋值形参会改变形参的引用，但不能改变作用域外的值，所以要达到`require`引入一个类的效果，请赋值给`module.exports`对象
    2. .node文件：C/C++编写的扩展文件，Node调用`process.dlopen`方法进行加载和执行，`dlopen()`在Windows和*nix平台有不同的实现，通过libuv兼容层进行了封装
-   3. .json文件：Node利用fs模块同步读取JSON文件的内容之后，调用JSON.parse()方法得到对象，然后将它赋给模块对象的exports，以供外部调用
+   3. .json文件：Node利用fs模块同步读取JSON文件的内容之后，调用`JSON.parse()`方法得到对象，然后将它赋给模块对象的`exports`，以供外部调用
    4. 其他文件：它们都被当做.js文件载入
 
 ```javascript

@@ -13,7 +13,7 @@
 <img src="./assets/3/非阻塞IO.png" width="300" height="280" />
 
 #### 轮询的类型
-非阻塞I/O为了获取完整的数据，应用程序需要重复调用I/O操作来确认是否完成。这种重复调用判断操作是否完成的技术叫做轮询，现存的轮询技术有以下：
+非阻塞I/O为了获取完整的数据，应用程序需要重复调用I/O操作来确认是否完成。这种重复调用判断操作是否完成的技术叫做轮询，现存的轮询技术有以下：
 
 - read：通过重复调用来检查I/O的状态来完成完整数据的读取。在得到最终数据前，CPU一直耗用在等待上
 <img src="./assets/3/read.png" width="300" height="285" />
@@ -24,7 +24,7 @@
 - epoll：在进行轮询的时候如果没有检查到I/O事件，将会进行休眠，直到事件发生将它唤醒。它是真实利用了事件通知、执行回调的方式，而不是遍历查询，所以不会浪费CPU，执行效率较高
 <img src="./assets/3/epoll.png" width="280" height="300" />
 
-轮询技术满足了非阻塞I/O确保获取完整数据的需求，但它仍是一种同步
+轮询技术满足了非阻塞I/O确保获取完整数据的需求，但它仍是一种同步
 
 #### 理想的非阻塞异步I/O
 应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需在I/O完成后通过信号或回调将数据传递给应用程序即可
@@ -48,7 +48,6 @@
 - 当线程池中的I/O操作调用完毕，会将获取的结果储存在`req->result`属性上，然后调用`PostQueueCompletionStatus()`通知IOCP，告知当前对象操作已经完成,并将线程归还线程池。通过`PostQueueCompletionStatus()`方法提交的状态，可以通过`GetQueueCompletionStatus()`提取
 - 事件循环的I/O观察者，在每次Tick的执行中，它会调用IOCP相关的`GetQueuedCompletionStatus()`方法检查线程池中是否有执行完的请求，如果存在，会将请求对象加入到I/O观察者的队列中，然后将其当做事件处理
 - I/O观察者回调函数的行为就是取出请求对象的result属性作为参数，取出`oncomplete_sym`属性作为方法，然后调用执行，以此达到调用js中传入的回调函数的目的
-<img src="./assets/3/settimeout.png" width="450" height="130" />
 
 #### 非I/O的异步API
 - setTimeout,setInterval
@@ -56,10 +55,10 @@
 - setImmediate()：与`process.nextTick()`类似，不过优先级低于`process.nextTick()`
 - `process.nextTick()`的回调函数保存在一个数组中，`setImmediate()`的结果则是保存在链表中
 - `process.nextTick()`在每轮循环中会将数组中的回调函数全部执行，`setImmediate()`在每轮循环中执行链表中的一个回调函数
-<img src="./assets/3/web.png" width="465" height="335" />
+<img src="./assets/3/settimeout.png" width="450" height="330" />
 
 #### 事件驱动与高性能服务器
-
+<img src="./assets/3/web.png" width="465" height="335" />
 
 
 
