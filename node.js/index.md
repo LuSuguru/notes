@@ -1,7 +1,11 @@
 ### 深入浅出Node.js
 
 ##### node的特点 
-1. 异步I/O ![异步流程](./assets/1/异步.png)
+1. 异步I/O 
+```html
+<img src="./assets/1/异步.png" width="300" height="300"/>
+```
+![异步流程](./assets/1/异步.png)
 2. 事件与回调函数
 3. 单线程
    - 缺点
