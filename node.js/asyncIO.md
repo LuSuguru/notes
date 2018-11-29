@@ -59,7 +59,7 @@
 - 事件循环的I/O观察者，在每次Tick的执行中，它会调用IOCP相关的`GetQueuedCompletionStatus()`方法检查线程池中是否有执行完的请求，如果存在，会将请求对象加入到I/O观察者的队列中，然后将其当做事件处理
 - I/O观察者回调函数的行为就是取出请求对象的result属性作为参数，取出`oncomplete_sym`属性作为方法，然后调用执行，以此达到调用js中传入的回调函数的目的
 
-<img src="./assets/3/事件循环.png" width="300" height="235" />
+<img src="./assets/3/事件循环.png" width="300" height="255" />
 
 #### 非I/O的异步API
 - setTimeout,setInterval
