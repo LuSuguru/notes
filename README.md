@@ -12,4 +12,5 @@
 
   - [x] [网络分层](./web/tier.md)
   - [x] [IP、TCP和DNS](./web/tcp-ip-dns.md)
+  - [x] [HTTP协议介绍](./web/http.md)
 </details>
