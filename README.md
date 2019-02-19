@@ -4,11 +4,11 @@
 <details>
   <summary>Node</summary>
 
-  -[x] [深入浅出Node.js](./node.js/index.md)
+  - [x] [深入浅出Node.js](./node.js/index.md)
 </details>
 
 <details>
   <summary>网络基础</summary>
 
-  -[x] [网络基础](./web/tier.md)
+  - [x] [网络基础](./web/tier.md)
 </details>
