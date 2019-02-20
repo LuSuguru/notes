@@ -15,5 +15,6 @@
   - [x] [IP、TCP和DNS](./web/tcp-ip-dns.md)
   - [x] [HTTP协议介绍](./web/http.md)
   - [x] [HTTP报文内的信息](./web/http-info.md)
+  - [x] [HTTP状态码](./web/status-code.md)
 </details>
 <br/>
