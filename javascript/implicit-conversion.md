@@ -31,6 +31,7 @@ null|+0
 对象(obj)|先进行ToPrimitive(obj, Number)转换得到原始值，在进行ToNumber转换为数字
 
 - ToString
+
 参数|结果
 ---|---
 undefined|'undefined'
@@ -48,7 +49,7 @@ null|'null'
 
 - toString()
   - Number、Boolean、String、Array、Date、RegExp、Function这几种构造函数生成的对象，通过toString转换后会变成相应的字符串的形式，因为这些构造函数上封装了自己的toString方法
-  
+
   ```javaScript
   var num = new Number('123sd');
   num.toString(); // 'NaN'
@@ -78,3 +79,17 @@ null|'null'
   Math.toString()// "[object Math]"
   ```
 
+#### ==运算符类型转化
+ - 若x,y类型相同，没有类型转换，主要注意NaN不与任何值相等，包括它自己，即NaN !== NaN
+ - 若x,y类型不相同
+  - x,y 为null、undefined两者中一个   // 返回true
+  - x、y为Number和String类型时，则转换为Number类型比较。
+  - 有Boolean类型时，Boolean转化为Number类型比较。
+  - 一个Object类型，一个String或Number类型，将Object类型进行原始转换后，按上面流程进行原始值比较
+
+#### +运算符类型转化
+ - 若x,y为undefined、null、boolean、number中一个，则转换为Number类型运算
+ - 若x,y为string、obj中一个，则转换为String类型运算
+
+#### *，/类型转化
+ - 转换为Number类型比较
