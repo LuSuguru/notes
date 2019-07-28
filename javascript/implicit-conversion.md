@@ -1,7 +1,7 @@
 ### JavaScript中的隐式转换
 #### JS数据类型
-基础类型（原始值）：Undefined、Null、String、Number、Boolean、Symbol
-复杂类型（对象值）：Object
+- 基础类型（原始值）：Undefined、Null、String、Number、Boolean、Symbol
+- 复杂类型（对象值）：Object
 
 #### 三种转换类型
 - ToPrimitive(input,PreferredType?)
@@ -80,10 +80,11 @@ null|'null'
   ```
 
 #### ==运算符类型转化
- - 若x,y类型相同，没有类型转换，主要注意NaN不与任何值相等，包括它自己，即NaN !== NaN
- - 若x,y类型不相同
+- 若x,y类型相同
+  - 没有类型转换，主要注意NaN不与任何值相等，包括它自己，即NaN !== NaN
+- 若x,y类型不相同
   - x,y 为null、undefined两者中一个   // 返回true
-  - x、y为Number和String类型时，则转换为Number类型比较。
+  - x,y为Number和String类型时，则转换为Number类型比较。
   - 有Boolean类型时，Boolean转化为Number类型比较。
   - 一个Object类型，一个String或Number类型，将Object类型进行原始转换后，按上面流程进行原始值比较
 
