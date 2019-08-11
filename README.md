@@ -34,5 +34,6 @@
 
   - [x] [递归简论](./data-structures/Recursion.md)
   - [x] [数组、链表、栈和队列](./data-structures/list.md)
+  - [x] [树](./data-structures/tree.md)
 </details>
 <br/>
