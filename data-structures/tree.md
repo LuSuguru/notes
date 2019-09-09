@@ -122,6 +122,7 @@
 
 
 下图是一个 3 阶 b-树 的例子
+
 <img src="./assets/b-树.png" height="169" width="402"/>
 
 #### 应用
