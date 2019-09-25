@@ -36,5 +36,6 @@
   - [x] [数组、链表、栈和队列](./data-structures/list.md)
   - [x] [树](./data-structures/tree.md)
   - [x] [散列表](./data-structures/hash-table.md)
+  - [x] [优先队列(堆)](./data-structures/heap.md)
 </details>
 <br/>
