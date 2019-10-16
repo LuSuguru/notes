@@ -110,3 +110,89 @@ d-堆是二叉堆的简单推广，它恰像一个二叉堆，只是所有的节
 
 ##### 左式堆
 左式堆类似于二叉堆，不过，它不是理想平衡的，而实际上是趋向于非常不平衡
+
+- 对于堆中的每一个节点 X，左儿子的零路径长至少与右儿子的零路径长一样大
+
+**零路径长：我们把任一节点 X 的零路径长 Npl(x) 定义为从 X 到一个没有两个儿子的节点的最短路径长**
+
+
+
+##### Merge O(log N)
+用递归实现:
+
+```c++
+Merge(PriorityQueue H1,PriorityQueue H2) {
+  if(H1 == NULL) {
+    return H2
+  }
+  if(H2 == NULL) {
+    return H1
+  }
+  if(H1->Element < H2->ELement) 
+    return Merge1(H1, H2)
+  else 
+    return Merge1(H2, H1)
+}
+
+Merge1(PriorityQueue H1, PriorityQueue H2) {
+  if(h1->Left == NULL) {
+    H1->Left == H2
+  } else {
+    H1->Right = Merge(H1->Right, H2)
+    if(H1->Left->Npl < H1->Right->Npl) {
+      SwapChildren(H1) // 对换两树
+    }
+    H1->Npl = H->Right->Npl + 1
+  }
+  return H1
+}
+```
+
+遍历实现：
+需要遍历两趟，
+1. 通过合并两个堆的右路径建立一棵新的树，为此，以排序的顺序安排 H1 和 H2 右路径上的节点，保持它们各自的左儿子不变
+2. 在遍历一次，对左式堆性质被破坏的那些节点进行儿子的交换
+
+##### Insert
+可以把被插入项看成单节点堆并执行一次 Merge 来完成插入
+
+```c++
+Insert(Element X, PriorityQueue H) {
+  PriorityQueue SingleNode
+
+  SingleNode = malloc(sizeOf(struct TreeNode))
+  if(SingleNode == NULL) {
+    FatalError('Out of space !!!')
+  } else {
+    // 构建单个节点堆
+    SingleNode->Element = X
+    SingleNode->Npl = 0
+    SingleNode->Left = SingleNode->Right = NULL
+
+    H = Merge(SingleNode, H)
+  }
+
+  return H
+}     
+```
+
+##### Delete O(log N)
+先除掉根而得到两个堆，然后再将这两个堆合并
+
+```c++
+DeleteMin(PriorityQueue H) {
+  PriorityQueue LeftHeap, RightHeap
+
+  if(isEmpty(H)) {
+    return H
+  }
+
+  LeftHeap = H->Left
+  RightHeap = H->Right
+
+  free(H)
+  return Merge(LeftHeap, RightHeap)
+}
+```
+
+
