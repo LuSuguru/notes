@@ -74,6 +74,10 @@ InsertionSort(ElementType A[], int N) {
 - 使用这种策略，在最后一次 DeleteMin 后，该数组将以递减的顺序包含这些元素，也就完成了排序
 
 ```c++
+  LeftChild(i) {
+    return 2 * i + 1
+  }
+
   percDown(ElementType A[], int i, int N) {
     int Child;
     ElementType Tmp;
