@@ -74,23 +74,109 @@ InsertionSort(ElementType A[], int N) {
 - 使用这种策略，在最后一次 DeleteMin 后，该数组将以递减的顺序包含这些元素，也就完成了排序
 
 ```c++
-  LeftChild(i) {
+  leftChild(i) {
     return 2 * i + 1
   }
 
   percDown(ElementType A[], int i, int N) {
-    int Child;
-    ElementType Tmp;
+    int Child
+    ElementType Tmp
 
     for (Tmp = A[i]; leftChild(i) < N; i = Child) {
-      Child = leftChild(i);
+      Child = leftChild(i)
       if(Child != N - 1 && A[Child + 1] > A[Child]) {
         Child++
       }
 
       if(Tmp < a[Child]) {
         A[i] = A[Child]
+      } else {
+        break
       }
+    }
+
+    A[i] = Tmp
+  }
+
+  heapSort(ElementType A[], int N) {
+    int i
+
+    for(i = N / 2; i >= 0; i--) {
+      percDown(A, i, N)
+    }
+
+    for(i = N - 1; i > 0; i--) {
+      Swap(&A[0], &A[i])
+      percDown(A, 0, i)
     }
   }
 ```
+
+### 归并排序
+**归并排序**以 O(N log N) 最坏情形运行时间运行，所使用的比较次数几乎是最优的
+
+**归并排序**的基本操作是合并两个已排序的表，因为这两个表是已经排序的，所以若将输出放到第三个表中时，则该算法可以通过对输入数据一趟排序来完成
+
+具体步骤如下：
+- 取两个输入数组 A 和 B，一个输出数组 C，以及三个计数器 Aptr，Bptr，Cptr，它们初始置于对应数组的开始端
+- A[Aptr] 和 B[Bptr] 中的叫较小者被拷贝到 C 中的下一个位置，相关的计数器向前推进一步
+- 当两个输入表中有一个用完的时候，则将另一个表中剩余部分拷贝到C中
+
+通过递归地将前半部分数据和后半部分数据各自归并排序，得到排序后的两部分数据，然后再将两部分合并到一起，直到完成整个数组
+
+**分治策略**：将问题分为一些小的问题然后递归求解，而治的阶段则将分的阶段解得的各个答案修补到一起
+
+归并排序的实现见下图，整个 merge 是非常巧妙的，它只利用了个临时数组就完成了两个数组的合并，如果每次 merge 都创建一个零时数组，那么对内存的利用都是致命的
+
+```c++
+mSort(ElementType a[], ElementType tmpArray[], int left, int right) {
+  int center
+
+  if(left < right) {
+    center = (left + right) / 2
+    mSort(a, tmpArray, left, center)
+    mSort(a, tmpArray, center + 1, right)
+    merge(a, tmpArray, left, center + 1, right)
+  }
+}
+
+merge(ElementType a[], ElementType tmpArray[], int lPos, int rPos, int rightEnd) {
+  int i, leftEnd, numElements, tmpPos;
+
+  leftEnd = rPos - 1
+  tmpPos = lPos
+  numElements = rightEnd - lPos + 1
+
+  while(lPos <= leftEnd && rirht <= RightEnd) {
+    if(a[lPos] <= a[rPos]) {
+      tmpArray[tmpPos++] = a[lPos++]
+    } else {
+      tmpArray[tmpPos++] = a[rPos++]
+    }
+  }
+
+  while(lPos <= leftEnd) {
+    tmpArray[tmpPos++] = a[lPos++]
+  } 
+
+  while(rPos <= rightEnd) {
+    tmpArray[tmpPos++] = a[rPos++]
+  }
+
+  for(i =0; i < numElements; i++, rightEnd--) {
+    a[RightEnd] = tmpArray[rightEnd]
+  }
+}
+
+mergeSort(ElementType a[], int n) {
+  ElementType tmpArray
+  tmpArray = malloc( n * sizeof(ElementType))
+
+  if(tmpArray !== NULL) {
+    mSort(A, tmpArray, 0, n - 1)
+    free(tmpArray)
+  }
+}
+```
+
+虽然 **归并排序的运行时间**是O(N log N)，但是它很难用于主存排序，主要问题在于合并两个排序的表需要线性附加内存，在整个算法中还要花费将数据拷贝到临时数组再拷贝回来这样一些附加的工作，其结果严重放慢了排序的速度
