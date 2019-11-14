@@ -37,6 +37,6 @@
   - [x] [树](./data-structures/tree.md)
   - [x] [散列表](./data-structures/hash-table.md)
   - [x] [优先队列(堆)](./data-structures/heap.md)
-  - [x] [排序](./data-structures/sotring.md)
+  - [x] [排序](./data-structures/sorting.md)
 </details>
 <br/>
