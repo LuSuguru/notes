@@ -38,5 +38,6 @@
   - [x] [散列表](./data-structures/hash-table.md)
   - [x] [优先队列(堆)](./data-structures/heap.md)
   - [x] [排序](./data-structures/sorting.md)
+  - [x] [并查集](./data-structures/disjoint-sets.md)
 </details>
 <br/>
