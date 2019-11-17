@@ -107,9 +107,13 @@ setUnion(DisjSet s, SetType root1, SetType root2) {
 ```
 
 <img src="./assets/灵巧求并例子.png" width="378" height="136"/>
+
 - **按大小求并**
+
 <img src="./assets/按大小求并.png" width="335" height="44"/>
+
 - **按高度求并**
+
 <img src="./assets/按高度求并.png" width="332" height="39"/>
 
 
