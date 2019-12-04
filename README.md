@@ -39,5 +39,6 @@
   - [x] [优先队列(堆)](./data-structures/heap.md)
   - [x] [排序](./data-structures/sorting.md)
   - [x] [并查集](./data-structures/disjoint-sets.md)
+  - [x] [图论算法](./data-structures/graph.md)
 </details>
 <br/>
