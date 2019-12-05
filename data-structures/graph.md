@@ -86,3 +86,40 @@ topSort(Graph G) {
 - 将所有入度为 0 的顶点放入一个初始为空的队列中
 - 当队列不空时，删除一个顶点 v，并将与 v 邻接的所有的顶点的入度减 1
 - 只要一个顶点的入度降为 0，就把该顶点放入队列中
+
+如果我们通过使用扫描表来找出最小 dist，那么每一步将花费 O(V) 时间找到最小值，从而整个算法需要 O(V^2)时间查找最小 dist
+
+如果图是**稀疏**的，这种算法会很慢，因此这里我们不采用队列，而是使用堆
+将 dist 存储到堆中，通过一个 deleteMin 来找到最小值，更新也采用 DecreateKey 来操作，这时查找最小值的时间为 O(log V)，总的运行时间为 O(E logV)
+
+*注意，由于堆不能有效地支持 Find 操作，因此 dist 的每个值在堆中的位置将需要保留并当 dist 在优先队列中改变时更新*
+
+#### 具有负边值的图
+对于负值边，我们结合 **赋权** 和 **无权** 的算法结合起来，并抛弃关于已知的顶点的概念
+
+```c++
+weightdNegative(Table T) {
+  Queue q
+  Vertex v, w
+
+  q = createQueue(numVertex)
+  makeEmpty(q)
+
+  while(!isEmpty(q)) {
+    v = dequeue(q)
+
+    for each w adjacent to v
+    if(t[v].dist + c < t[w].dist) {
+      t[w].dist = t[v].dist + c
+      t[w].path = v
+
+      if(w is not alerady in Q) {
+        enqueue(w, q)
+      }
+    }
+  }
+}
+```
+
+*注意，如果没有负值圈，该算法能够正常工作，但是，每个顶点最多可以出队 V 次，因此，如果使用邻接表则运行时间使 O(EV)*
+*如果负值圈存在，那么所写的算法将无限循环下去。通过在任一顶点已经出队 V+1 次后停止算法运行，我们可以保证算法能终止*
