@@ -47,4 +47,42 @@
 
 ### 拓扑排序
 - 对 **有向无圈图** 的顶点的一种排序，它使得如果存在一条从 vi 到 vj 的路径，那么在排序中 vj 出现在 vi 的后面
-- 排序不必是唯一的，任何合理的排序都是可以的，对于上面的有向图，v1,v2,v5,v4,v3,v7,v6 和 v1,v2,v5,v4,v7,v3,v6都是拓扑排序
+- 排序不必是唯一的，任何合理的排序都是可以的，对于上面的有向图，v1,v2,v5,v4,v3,v7,v6 和 v1,v2,v5,v4,v7,v3,v6都是拓扑排序 
+
+- 先找出任意一个没有入边的顶点，显示出该顶点，将它和它的边一起从图中删除
+- 对图的其余部分应用同样的方法处理
+
+入度：边（u，v）的条数
+
+以下为伪代码：
+
+```c++
+topSort(Graph G) {
+  int Counter
+  Vertex v,w
+
+  for(counter = 0; counter < numVertex; couter++) {
+    // 扫描 Indegree[],寻找一个尚未被分配拓扑编号的入度为 0 的顶点
+    v = findNewVertexOfIndegreeZero()
+
+    if(v == NotAVertex) {
+      Error('Graph has a cycle')
+      break
+    }
+
+    TopNum[v] = counter
+    for each w adjacent to v
+      indegree[w]--
+  }
+}
+```
+每次 findNewVertexOfIndegreeZero 都对整个 indegree 数组进行了一次扫描，每次就是 O(V)时间，由于有 V 次这样的调用，因此该算法的运行时间为 O(V^2)
+
+如果图是稀疏的，每次迭代期间只有一些顶点的入度被更新，但是在执行 findNewVertexOfIndegreeZero 时还是扫描了全部顶点
+
+对于 **稀疏图**，我们采取另一种方式：
+
+- 使用一个栈或者队列，首先，对每一个顶点计算它的入度
+- 将所有入度为 0 的顶点放入一个初始为空的队列中
+- 当队列不空时，删除一个顶点 v，并将与 v 邻接的所有的顶点的入度减 1
+- 只要一个顶点的入度降为 0，就把该顶点放入队列中
