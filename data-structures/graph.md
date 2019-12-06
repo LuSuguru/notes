@@ -47,10 +47,44 @@
 
 ### 拓扑排序
 - 对 **有向无圈图** 的顶点的一种排序，它使得如果存在一条从 vi 到 vj 的路径，那么在排序中 vj 出现在 vi 的后面
-- 排序不必是唯一的，任何合理的排序都是可以的，对于上面的有向图，v1,v2,v5,v4,v3,v7,v6 和 v1,v2,v5,v4,v7,v3,v6都是拓扑排序
 
+- 排序不必是唯一的，任何合理的排序都是可以的，对于上面的有向图，v1,v2,v5,v4,v3,v7,v6 和 v1,v2,v5,v4,v7,v3,v6都是拓扑排序 
 
-- 我们使用一个栈或者对队列，对每一个顶点计算它的入度
+- 先找出任意一个没有入边的顶点，显示出该顶点，将它和它的边一起从图中删除
+- 对图的其余部分应用同样的方法处理
+
+入度：边（u，v）的条数
+
+以下为伪代码：
+
+```c++
+topSort(Graph G) {
+  int Counter
+  Vertex v,w
+
+  for(counter = 0; counter < numVertex; couter++) {
+    // 扫描 Indegree[],寻找一个尚未被分配拓扑编号的入度为 0 的顶点
+    v = findNewVertexOfIndegreeZero()
+
+    if(v == NotAVertex) {
+      Error('Graph has a cycle')
+      break
+    }
+
+    TopNum[v] = counter
+    for each w adjacent to v
+      indegree[w]--
+  }
+}
+```
+
+每次 findNewVertexOfIndegreeZero 都对整个 indegree 数组进行了一次扫描，每次就是 O(V)时间，由于有 V 次这样的调用，因此该算法的运行时间为 O(V^2)
+
+如果图是稀疏的，每次迭代期间只有一些顶点的入度被更新，但是在执行 findNewVertexOfIndegreeZero 时还是扫描了全部顶点
+
+对于 **稀疏图**，我们采取另一种方式：
+
+- 使用一个栈或者对队列，对每一个顶点计算它的入度
 - 将所有入度为 0 的顶点放入一个初始为空的队列中
 - 当队列不为空时，删除一个顶点 v，并将与 v 邻接的所有的顶点的入度减 1
 - 只要一个顶点的入度降为 0，就把该顶点放入队列中
@@ -154,9 +188,6 @@ unweighted(Table t) {
   Queue q
   Vertex v,w
 
-  q = createQueue(numVertex)
-  makeEmpty(q)
-
   // 将初始顶点插入队列
   enqueue(s, q)
 
@@ -190,5 +221,89 @@ unweighted(Table t) {
 如图：
 
 
+如果我们通过使用扫描表来找出最小 dist，那么每一步将花费 O(V) 时间找到最小值，从而整个算法需要 O(V^2)时间查找最小 dist
 
+如果图是 **稀疏** 的，这种算法会很慢，因此这里我们不采用队列，而是使用堆
+将 dist 存储到堆中，通过一个 deleteMin 来找到最小值，更新也采用 DecreateKey 来操作，这时查找最小值的时间为 O(log V)，总的运行时间为 O(E logV)
+
+```c++
+// 表初始化例程
+initTable(Vertex start, graph g, Table t) {
+  int i
+  readGraph(g, t)
+
+  for(i = 0; i < numVertex; i++) {
+    t[i].known = false 
+    t[i].dist = Infinity
+    t[i].path = notAVertex
+  }
+  t[start].dist = 0
+}
+
+// 显示实际最短路径
+printPath(Vertex v, table t) {
+  if(t[v].path != notAVertex) {
+    printPath(t[v].path, t)
+    printf('to')
+  }
+  printf('%v', v)
+}
+
+// dijkstra 算法
+dijkstra(Table t) {
+  Vertex v, w
+
+  for( ; ; ) {
+    // 通过 deleteMin 找到最小 dist 顶点
+    v = smallest unknown distance vertex
+
+    if(v == notAVertex) {
+      break
+    }
+
+    t[v].known = true
+
+    // 堆不支持 find，所以这里很难办
+    for each w adjacent to v
+      if(!t[w].known) {
+        if(t[v].dist + c < t[w].dist) {
+          decrease(t[w].dist to t[v].dist +c)
+          t[w].path = v
+        }
+      }
+  }
+}
+```
+
+*注意，由于堆不能有效地支持 Find 操作，因此 dist 的每个值在堆中的位置将需要保留并当 dist 在优先队列中改变时更新*
+
+#### 具有负边值的图
+对于负值边，我们结合 **赋权** 和 **无权** 的算法结合起来，并抛弃关于已知的顶点的概念
+
+```c++
+weightdNegative(Table T) {
+  Queue q
+  Vertex v, w
+
+  q = createQueue(numVertex)
+  makeEmpty(q)
+
+  while(!isEmpty(q)) {
+    v = dequeue(q)
+
+    for each w adjacent to v
+    if(t[v].dist + c < t[w].dist) {
+      t[w].dist = t[v].dist + c
+      t[w].path = v
+
+      if(w is not alerady in Q) {
+        enqueue(w, q)
+      }
+    }
+  }
+}
+```
+
+*注意，如果没有负值圈，该算法能够正常工作，但是，每个顶点最多可以出队 V 次，因此，如果使用邻接表则运行时间使 O(EV)*
+*如果负值圈存在，那么所写的算法将无限循环下去。通过在任一顶点已经出队 V+1 次后停止算法运行，我们可以保证算法能终止*
 
