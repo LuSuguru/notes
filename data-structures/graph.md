@@ -48,3 +48,147 @@
 ### 拓扑排序
 - 对 **有向无圈图** 的顶点的一种排序，它使得如果存在一条从 vi 到 vj 的路径，那么在排序中 vj 出现在 vi 的后面
 - 排序不必是唯一的，任何合理的排序都是可以的，对于上面的有向图，v1,v2,v5,v4,v3,v7,v6 和 v1,v2,v5,v4,v7,v3,v6都是拓扑排序
+
+
+- 我们使用一个栈或者对队列，对每一个顶点计算它的入度
+- 将所有入度为 0 的顶点放入一个初始为空的队列中
+- 当队列不为空时，删除一个顶点 v，并将与 v 邻接的所有的顶点的入度减 1
+- 只要一个顶点的入度降为 0，就把该顶点放入队列中
+- 拓扑排序就是顶点出队的顺序
+
+```c++
+topSort(Graph G) {
+  Queue q
+  int counter = 0
+  Vertex v,w
+
+  // 创建入度队列
+  q = createQueue(numVertex)
+  makeEmpty(q)
+
+  for each vertex v
+    // 将所有入度为 0 的顶点放入一个初始为空的队列中
+    if(indegree[v] == 0) {
+      enqueue(v, q)
+    }
+
+  while(!isEmpty(q)) {
+    v = dequeue(q)
+    topNum[v] = ++counter
+
+    for each w adjacent to v
+      if(--indegree[w] == 0) {
+        enqueue(w, q)
+      }
+  }
+
+  if(counter != numVertex) {
+    Error('Graph has a cycle')
+  }
+
+ // 释放队列内存
+  disposequeue(q)
+}
+```
+
+*采用这种方式，执行这个算法所用的时间为 O(E + V)*
+
+### 最短路径算法
+赋权路径长：与每条边（vi，vj）相联系的是穿越该边的代价ci,j，一条路径 v1,v2...vn 的值是 c1+c2+...+cn
+无权路径长：不包括边的值，只是路径上的边数
+
+#### 单源最短路径问题
+给定一个赋权图 G = (V, E) 和一个特定顶点 s 作为输入，找出从 s 到 G 中每一个其他顶点的最短赋权路径
+
+该问题我们讨论4种类型：
+1. 无权最短路径问题
+2. 无负边，赋权最短路径问题
+3. 有负边，赋权最短路径问题
+4. 以线性时间解决无圈图的赋权最短路径问题
+
+#### 无权最短路径
+如图是一个无权有向图：
+
+1. 我们选择 v3 作为起点，先找出与 s 距离为 1 的顶点，为 v1 和 v6
+2. 找出与 s 距离为 2 的顶点，即邻接到 v1 和 v6 的顶点，为 v2 和 v4 
+3. 找出与 s 距离为 3 的顶点，v5，v7，此时所有的顶点都已扫描到
+
+**广度优先搜索**：按层处理顶点：距开始点最近的那些顶点首先被赋值，而最远的那些顶点最后被赋值
+
+我们采用一张表，记录每个顶点的3个变量
+- dist：从 s 到顶点的距离
+- known: 未被处理过的顶点为 0 ，处理后的顶点为 1
+- path
+
+当一个顶点被标记为已知时，我们就确信不会再找到更短的路径，因此对该顶点的处理实质上已经完成，以下是一种实现方式
+
+```c++
+unweighted(Table t) {
+  int currDist
+  Vertex v, w
+
+  for(currDist = 0; currDist < numVertex; currDist++) {
+    for each vertex v
+      if(!t[v].known && t[v].dist == currDist) {
+        for each w adjacent to v
+          if(t[w].dist == Infinity) {
+            t[w].dist = currDist + 1
+            t[w].path = v
+          }
+    } 
+  }
+}
+```
+
+由于双层嵌套 for 循环，因此运行时间为 O(V^2)，虽然顶点被 known 了，但是外层循环还是要继续，因此，我们可以采用一种类似于拓扑排序的做法来排除这种低效性
+
+同样，我们采用一个队列：
+- 迭代开始的时候，队列只含有距离为 currDist 的那些顶点
+- 当我们添加距离为 currDist + 1 的那些邻接顶点时，由于它们自队尾入队，因此这就保证它们直到所有距离为 currDist 的顶点被处理之后才被处理
+- 在距离为 currDist 的最后一个顶点出队处理后，队列只含有距离为 currDist + 1 的顶点，重复这个过程
+
+由于一个顶点被处理后就不会再进入队列，所以 known 字段可以删除
+
+```c++
+unweighted(Table t) {
+  Queue q
+  Vertex v,w
+
+  q = createQueue(numVertex)
+  makeEmpty(q)
+
+  // 将初始顶点插入队列
+  enqueue(s, q)
+
+  while(!isEmpty(q)) {
+    v = dequeue(q)
+
+    for each w adjacent to v 
+      if(t[w].dist = infinity) {
+        t[w].dist = t[v].dist + 1
+        t[w].path = v
+        
+        enqueue(w, q)
+      }
+  }
+  disposeQueue(q)
+}
+```
+
+### 赋权最短路径（Diijkstra 算法）
+类似于无权最短路径，我们保留 known,dist,path 3个属性，
+- known：是否处理过
+- dist： 使用已知顶点作为中间顶点从 s 到 v 的最短路径的长
+- path：引起 dist 变化的最后的顶点
+
+**贪婪算法**：一般分阶段求解一个问题，在每个阶段它都把当前出现的当作是最好的去处理
+
+- diijKstra 算法像无权最短路径算法一样，按阶段进行
+- 在每个阶段，算法选择一个顶点 v，它在所有未知顶点中具有最小的 dist，并声明从 s 到 v 的最短路径是已知的
+- 阶段的其余部分由 dist 的更新组成，若顶点 v 能提供一条更短路径，则我们本质减低了 dist 的值，那我们就更新 dist
+
+如图：
+
+
+
+
