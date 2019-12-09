@@ -368,8 +368,7 @@ LCv = min(LCw - c)  // （v, w）¢ E
 <img src="./assets/最大流1.png" width="321" height="225" />
 
 #### 解决方法
-- 我们需要另外两个图，Gf,Gr
-
+我们需要另外两个图，Gf,Gr
 - Gf：表示在算法的任意阶段已经达到的流，开始时 Gf 的所有边都没有流，终止时 Gf包含最大流
 - Gr：表示对于每条边还能再添加上多少流，一旦注满一条边，则这条边就要从图中除去
 
@@ -458,7 +457,7 @@ kruskal(Graph g) {
 
   while(edgesAccepted < numVertex - 1) {
     e = deleteMin(h)
-    
+
     // e= E(u, v)
     uset = find(u,s)
     vset = find(v,s)
