@@ -337,7 +337,7 @@ qSort(ElementType a[], int left, int right) {
   if(left + cutoff <= right) {
     pivot = median3(a, left, right)
     i = left
-    i = right - 1
+    j = right - 1
 
     for(;;) {
       while(a[++i] < pivot) {}

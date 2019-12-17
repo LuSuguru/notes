@@ -40,5 +40,6 @@
   - [x] [排序](./data-structures/sorting.md)
   - [x] [并查集](./data-structures/disjoint-sets.md)
   - [x] [图论算法](./data-structures/graph.md)
+  - [x] [算法设计技巧](./data-structures/alg-design.md)
 </details>
 <br/>
