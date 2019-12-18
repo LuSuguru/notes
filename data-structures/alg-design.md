@@ -77,6 +77,45 @@ C = (N ∑ 1)(N - K +1) * jk * tk => C = (N + 1)(N ∑ 1) * jk * tk - (N ∑ 1)k
 **联机**
 
 
+如果存在 N 个点，那么就存在 N(N - 1)/2 对点间的距离，我们可以穷举所有的距离，找到最短的距离
+
+我们可以采用 **分治算法**，假设这些点已按 x 坐标排过序，那么我们就可以画一条想象的垂线，把点集分成两半：Pl 和 Pr，最近的一对点或者都在 Pl 中，或者都在 Pr 中，或者一个在 Pl 中而另外一个在 Pr 中，我们分别把这些距离叫做 dl,dr,dc
+
+令 s = min(dl,dr)，如果 dc 对 s 有改进，那么我们只需要计算 dc，如果 dc 是这样的距离，则定义 dc 的两个点必然在分割线的 s 距离之内；我们将把整个区域叫做一条 **带**
+
+有两种方法计算 dc，穷举 位于 **带** 中的点
+
+```c++
+for (let i = 0; i < numPointsInstrip; i++) {
+  for (let j = i + 1; j < numPointsInstrip; j++) {
+    if (dist(pi, pj) < s) {
+      s = dist(pi, pj)
+    }
+  }
+}
+```
+
+我们可以优化这个算法，设带中的点按照它们的 y坐标 排过序。因此，如果 Pi 和 pj 的 y 坐标相差大于 s ，那么我们跳过这个点直接处理 pi+1
+
+```c++
+for (let i = 0; i < numPointsInstrip; i++) {
+  for (let j = i + 1; j < numPointsInstrip; j++) {
+    // 通过 y 坐标筛选
+    if (Math.abs(getYdist(pi) - getYdist(pj)) > s) {
+      break
+    } else if (dist(pi, pj) < s) {
+      s = dist(pi, pj)
+    }
+  }
+}
+```
+
+##### 选择问题
+**问题**：找出 N 个元素的表 S 中的第 k 个最小的元素
+
+
+
+
 
 
 
