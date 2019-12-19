@@ -365,9 +365,38 @@ qSort(ElementType a[], int left, int right) {
 1. 如果 |S| = 1，那么 k = 1，并将 S 中的元素作为答案返回。如果使用小数组的截止方法且 |S| <= Cutoff，则将 S 排序并返回第 k 个最小元
 2. 选取一个枢纽元 v ¢ S
 3. 将集合 S - |v| 分割成 S1 和 S2
-4. 如果 k <= |S1|,
+4. 如果 k <= |S1|，返回 quickSelect(S1, k)。如果 k = 1 + |S1|，那么返回枢纽元，否则，返回 quickSelect(S2, k - |S1| - 1)
 
+```c++
+qSelect(ElementType a[], int k, int left, int right) {
+  int i, j
+  ElementType pivot
 
+  if (left + cutoff <= right) {
+    pivot = median3(a, left, right)
+
+    for (; ;) {
+      while (a[++i] < pivot) { }
+      while (a[--j] > pivot) { }
+      if (i < j) {
+        swap(&a[i], &a[j])
+      } else {
+        break
+      }
+
+      swap(&a[i], &[right - 1])
+
+      if(k <= i) {
+        qSelect(a, k, left, i - 1)
+      } else if(k > j + 1) {
+        qSelect(a, k, j + 1, right)
+      }
+    }
+  } else {
+    insertionSort(a + left, right - left + 1)
+  }
+}
+```
 
 ### 排序的一般下界
 在平均情况下，只用到比较的任意排序算法都需要进行 O(N log N) 次比较
