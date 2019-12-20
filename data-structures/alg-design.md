@@ -212,10 +212,39 @@ fibonacci(int N) {
 }
 ```
 
-第二个例子，
+第二个例子，代码如下，这个例子中，每一次 sum 都将前面算过 的 sum 又累加了一次，这种增长是指数级的
 ```c++
-eval()
+eval(int N) {
+  int i
+  double sum
+
+  if(N == 0) {
+    retutn 1.0
+  } else {
+    sum = 0.0
+    for(i = 0; i < N; i++) {
+      sum += eval(i);
+      return 2.0 * sum / n + n
+    }
+  }
+}
 ```
+
+同样，我们可以通过 **动态规划** 来优化它，它的运行时间为 O(N)
+
+```c++
+eval(int N) {
+  int i
+  double sum = 0.0
+  double last = 1.0
+
+  for(i = 1; i <= N; i++) {
+    sum = 2.0 * last / i + i
+    last = sum + last
+  }
+}
+```
+
   
 
 
