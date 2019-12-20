@@ -367,6 +367,8 @@ qSort(ElementType a[], int left, int right) {
 3. 将集合 S - |v| 分割成 S1 和 S2
 4. 如果 k <= |S1|，返回 quickSelect(S1, k)。如果 k = 1 + |S1|，那么返回枢纽元，否则，返回 quickSelect(S2, k - |S1| - 1)
 
+由于只做了一层递归，所以这个算法的平均时间复杂度是 O(N)
+
 ```c++
 qSelect(ElementType a[], int k, int left, int right) {
   int i, j
