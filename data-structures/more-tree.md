@@ -153,13 +153,90 @@ remove(ElementType item, SplayTree t) {
 3. 如果一个节点是红色的，那么它的子节点必须是黑色的
 4. 从一个节点到一个 NULL 指针的每一条路径必须包含相同数目的黑色节点
 
-通过这些约束，对红黑树的操作在最坏情形下花费 O(log N) 时间，它的高度最多是 2log(N+1)，同样因为这些约束，红黑树的插入、删除都及其复杂
+- 通过这些约束，对红黑树的操作在最坏情形下花费 O(log N) 时间，它的高度最多是 2log(N+1)
+- 红黑树的优点是执行插入所需要的开销相对较低，再有就是实践中发生的旋转相对较少
+- 同样因为这些约束，红黑树的插入、删除都及其复杂
+
+### 红黑树的初始化
+我们用 NullNode 来指示一个 Null 指针
+```c++
+Position NullNode = NULL
+
+initialize(void) {
+  RedBlackTree t
+
+  if (NullNode = NULL) {
+    NullNode = malloc(sizeof(struct RedBlackNode))
+
+    if (NullNode) {
+      FatalError('Out of space!!')
+    }
+
+    NullNode -> left = NullNode -> right = NullNode
+    NullNode -> color = black
+  }
+
+  t = malloc(sizeof(struct RedBlackNode))
+
+  if (t == NULL) {
+    FatalError('Out of space!!')
+  }
+  t -> element = NegInfinity
+  t -> left = t -> right  = NullNode
+  t -> color = black
+  return t
+}
+```
 
 ### 红黑树的插入
 - 新插入的节点必须涂成红色。如果它的父节点是黑的，我们插入完成
 - 如果它的父节点是黑的，我们插入完成
 - 如果它的父节点已经是红色的，那么我们得到连续红色节点，这就违反了条件3，在这种情况下，我们必须调整该树以确保条件3满足（且又不引起条件 4 被破坏）
 
-### 自底向上插入
-如果父
+#### 自底向上插入
+如果父节点是红色的，且父节点的兄弟节点是黑色的，我们可以通过旋转来调整它们的位置
+<img>
+
+#### 自顶向下红黑树
+我们可以从根节点向下遍历，在向下的过程中当我们看到一个节点 X 有两个红儿子的时候，我们让 X 成为红的而让它的两个儿子是黑
+
+<img>
+
+如上图，只有当 X 的父节点 P 也是红的时候这种翻转将破坏红黑树的法则，但是此时我们可以采用前面的旋转来调整它们的结构，另外，由于是从顶向下，所以 X 的父节点的兄弟节点不可能是红色
+
+以下是旋转的编码：
+```c++
+rotate(ElementType item, Position parent) {
+  if (item < parent->element) {
+    return parent->left =item < parent->left->element
+      ? singleRotateWithLeft(parent -> left)
+      : singleRotateWithRight(parent -> left)
+  } else {
+    rturn parent->right = item < parent->right->element
+      ? singleRotateWithLeft(parent->right)
+      : singleRotateWithRight(parent->right)
+  }
+}
+```
+
+最后是插入的过程，我们使用 HandleReorient 用来执行旋转的过程，在我们遇到带有两个红儿子的节点时被调用，在我们插入一片树叶时它也被调用
+```c++
+static Position x, p, gp, gpp
+
+void handleReorient(ElemenetType item, RedBlackTree t) {
+  x->color  = red
+  x->left->color = black
+  x->right->color = black
+
+  if (p->color == red) {
+    if ((item < gp->element) != (item < p->element)) {
+      p = rotate(item, gp)
+    }
+    x = rotate(item, ggp)
+  }
+  t->right->color = black
+}
+```
+
+
 
