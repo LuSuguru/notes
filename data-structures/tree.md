@@ -91,10 +91,38 @@
 
 <img src="./assets/单旋转.png" width="850" height="363"/>
 
+以下是执行单旋转的例程
+```c++
+static Position
+singleRotateWithLeft(Position k2) {
+  Position k1
+
+  k1 = k2->left
+  k2->left = k1->right
+  k1->right = k2
+
+  k2->height = max(height(k2->left), height(k2->right)) + 1
+  k1->height = max(height(k1->left), k2->height) + 1
+
+  return k1
+}
+```
+
 #### 双旋转
 如图，节点 K2 是不满足 AVL 的节点，切满足情形2，3，这时采用的是双旋转，将 K2 用作新的根，这迫使 K1 是 K2 的左儿子节点，K3是它的右子节点，在将 K2 的两棵子树移到相应的节点，从而完全确定了这四棵树的最终位置，这样对所有顺序的要求都得到满足
 
 <img src="./assets/双旋转.png" width="941" height="622"/>
+
+以下是双旋转的例程：
+
+```c++
+static Position
+doubleRotateWithLeft(Position k3) {
+  k3->left = singleRotateWithRight(k3->left)
+
+  return singleRotateWithLeft(k3)
+}
+```
 
 ### 伸展树
 - 当一个节点被访问后，它就要经过一系列 AVL树 的旋转被放到根上

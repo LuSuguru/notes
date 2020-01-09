@@ -204,27 +204,75 @@ initialize(void) {
 
 如上图，只有当 X 的父节点 P 也是红的时候这种翻转将破坏红黑树的法则，但是此时我们可以采用前面的旋转来调整它们的结构，另外，由于是从顶向下，所以 X 的父节点的兄弟节点不可能是红色
 
-以下是旋转的编码：
+红黑树的类型声明和初始化：
+
+```c++
+typedef enum ColorType { Red, Black } ColorType
+
+struct RedBlackNode {
+  ElementType Element
+  RedBlackTree Left
+  RedBlackTree Right
+  ColorType Color
+}
+
+Position NullNode = NULL
+
+RedBlackNode
+initialize(void) {
+  RedBlackTree t
+
+  if (NullNode == NUll) {
+    NullNode = malloc(sizeof(struct RedBlackNode))
+    if (NullNode == NULL) {
+      FatalError('out of space!!!')
+    }
+
+    NullNode->left = NullNode->right = NullNode
+    NullNode->color = black
+    NullNode->element = Infinity
+  }
+
+  // 创建头结点
+  t = malloc(sizeof(struct RedBlackNode))
+  if (NullNode == NULL) {
+    FatalError('out of space!!!')
+  }
+
+  t->element = NegInfinity
+  t->left = t->right  = NullNode
+  t->color = black
+
+  return t
+}
+```
+
+
+以下是旋转的编码，因为得到的树必须连接到父节点上，所以 rotate 把该父节点作为一个参数：
 ```c++
 rotate(ElementType item, Position parent) {
   if (item < parent->element) {
-    return parent->left =item < parent->left->element
-      ? singleRotateWithLeft(parent -> left)
-      : singleRotateWithRight(parent -> left)
+    return parent->left = item < parent->left->element
+      ? singleRotateWithLeft(parent->left)
+      : singleRotateWithRight(parent->left)
   } else {
-    rturn parent->right = item < parent->right->element
+    return parent->right = item < parent->right->element
       ? singleRotateWithLeft(parent->right)
       : singleRotateWithRight(parent->right)
   }
 }
 ```
 
-最后是插入的过程，我们使用 HandleReorient 用来执行旋转的过程，在我们遇到带有两个红儿子的节点时被调用，在我们插入一片树叶时它也被调用
+最后是插入的过程，在从顶到下的过程中，我们把 item 作为参数传递，而不是跟踪旋转的类型
+
+我们使用 HandleReorient 用来执行旋转的过程，在我们遇到带有两个红儿子的节点时被调用，在我们插入一片树叶时它也被调用
+
+
 ```c++
 static Position x, p, gp, gpp
 
 void handleReorient(ElemenetType item, RedBlackTree t) {
-  x->color  = red
+  x->color = red
   x->left->color = black
   x->right->color = black
 
@@ -237,6 +285,56 @@ void handleReorient(ElemenetType item, RedBlackTree t) {
   t->right->color = black
 }
 ```
+
+下面是插入的主程序：
+
+```c++
+insert(ElementType item, RedBlackTree t) {
+  x = g = gp = t
+  NullNode->element = item
+
+  while (x->element != item) {
+    ggp = gp
+    gp = p
+    p = x
+
+    if (item < x->element) {
+      x = x->left
+    } else {
+      x = x->right
+    }
+
+    // 如果两个子节点皆为红
+    if (x->left -> color == red && x->right->color = red) {
+      handleReorient(item, t)
+    }
+  }
+ 
+  // 说明已在树内
+  if (x != NullNode) {
+    return NullNode
+  }
+
+  x = malloc(sizeof(struct RedBlackTree))
+
+  if (x == NULL) {
+    FatalError('Out of space!!!')
+  }
+  x->element = item
+  x->left = x->right = NullNode
+
+  if (item < p->element) {
+    p->left = x
+  } else {
+    p->right = x
+  }
+
+  handleReorient(item, t)
+
+  return t
+}
+```
+
 
 
 
