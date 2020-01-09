@@ -18,19 +18,23 @@
 - 如果旋转是一次单旋转，那么根在 Y 的树变成中间树的新根
 - X 和子树 B 连接而成为 R 中最小项的左儿子；X 的左二子逻辑上成为 NULL，结果，X 成为 R 的新的最小项
 
-<img/>
+<img src="./assets/自顶向下伸展树-单旋转.png" width="389"  height="135" />
 
 2. 一字型
 进行一次单旋转，然后将右子树 放到 R 上
-<img/>
+<img src="./assets/自顶向下伸展树-一字型.png" width="388" height="107"/>
 
 3. 之字形
 之字形我们可以简化，Z 不再是中间树的根，Y 取而代之
 
+<img src="./assets/自顶向下伸展树-之字形.png" width="445" height="126" />
+
 - 最后，我们要合并 L，R，X以形成一棵树
 
+<img src="./assets/自顶向下伸展树-合并.png" width="425" height="123" />
+
 例子，如下图，我们要访问树中的 18
-<img>
+<img src="./assets/自顶向下伸展树-例子.png" width="404" height="643" />
 
 ### 展开
 ```c++
@@ -154,7 +158,7 @@ remove(ElementType item, SplayTree t) {
 4. 从一个节点到一个 NULL 指针的每一条路径必须包含相同数目的黑色节点
 
 - 通过这些约束，对红黑树的操作在最坏情形下花费 O(log N) 时间，它的高度最多是 2log(N+1)
-- 红黑树的优点是执行插入所需要的开销相对较低，再有就是实践中发生的旋转相对较少
+- 红黑树的优点是执行插入、删除所需要的开销相对较低，再有就是实践中发生的旋转相对较少
 - 同样因为这些约束，红黑树的插入、删除都及其复杂
 
 ### 红黑树的初始化
@@ -195,12 +199,12 @@ initialize(void) {
 
 #### 自底向上插入
 如果父节点是红色的，且父节点的兄弟节点是黑色的，我们可以通过旋转来调整它们的位置
-<img>
+<img src="./assets/红黑树插入.png" width="440" height="219">
 
 #### 自顶向下红黑树
 我们可以从根节点向下遍历，在向下的过程中当我们看到一个节点 X 有两个红儿子的时候，我们让 X 成为红的而让它的两个儿子是黑
 
-<img>
+<img src="./assets/自顶向下红黑树.png" width="404" height="92">
 
 如上图，只有当 X 的父节点 P 也是红的时候这种翻转将破坏红黑树的法则，但是此时我们可以采用前面的旋转来调整它们的结构，另外，由于是从顶向下，所以 X 的父节点的兄弟节点不可能是红色
 
@@ -366,7 +370,7 @@ x 的兄弟 w 是红色的，那么它们的父亲、w 的孩子都是黑色的
 
 交换p与w的颜色，再对p进行左旋操之后，x的新兄弟就为黑色，情况变成了2 3 4中的一种
 
-<img/>
+<img src="./assets/红黑树删除1.png" width="548" height="153"/>
 
 ##### 情况 2
 
@@ -378,7 +382,7 @@ x 的兄弟 w 是黑色，而且 w 的两个孩子都是黑色
 
 如果是情况2.2, 经过上述操作后，P的右子树也少了一个黑色结点，令 p 作为新的 x 继续循环
 
-<img/>
+<img src="./assets/红黑树删除2.png" width="362" height="306"/>
 
 ##### 情况 3
 
@@ -388,7 +392,7 @@ w 是黑色，w 在左孩子是红色，w 的右孩子是黑色
 
 图中最后边的 r 结点没有画出来，因为我们不关心它了
 
-<img/>
+<img src="./assets/红黑树删除3.png" width="528" height="153"/>
 
 ##### 情况 4
 
@@ -396,9 +400,156 @@ w 是黑色，w 的右孩子是红色
 
 把 w 涂成 p 的颜色，把 p 涂成黑色，r 涂成黑色，左旋 p。此时从根到x在路径上多了一个黑色结点，程序结束
 
-<img/>
+<img src="./assets/红黑树删除4.png" width="532" height="152"/>
 
-##
+## 确定性跳跃表
+**链接的**：如果至少存在一个指针从一个元素指向另一个元素，我们称两个元素是链接的
+
+**间隙容量**：两个高度为 h 链接元素之间高度为 h - 1 的元素个数
+
+在随机性跳跃表的基础上，为了保证只有常数个前向指针需要考查直到下降到更低的一层。为此，我们添加一个平衡条件
+
+1-2-3确定性跳跃表 满足这样的性质：每一个间隙的容量为1，2，3，如下图就是一个 1-2-3确定性跳跃表
+
+当我们沿任一层行进仅仅通过常数个指针然后就可下降到低一层。因此，在最坏的情形下查找的时间是 O(log N)
+
+<img src="./assets/确定性跳跃表.png" width="460" height="92"/>
+
+### 确定性跳跃表的实现
+在我们的实现中，每一个节点都留有使我们下降一层的指针，指向同层上的下一个节点的指针以及逻辑上存储在下一项中的项，如果一个节点在抽象表示中的高度为 h，那么它的项在实际实现中就会出现在 h 个地方
+
+- 每个基本节点由一个关键字和两个指针组成
+- 对头节点和底层节点都有一个标记以代替 NULL 指针，非常巧妙
+
+以下是示意图：
+<img src="./assets/确定性跳跃表实现.png" width="701" height="394"/>
+
+以下是初始化代码：
+
+```c++
+struct SkipNode {
+  ElementType element
+  SkipList right
+  SkipList down
+}
+
+static Position bottom = NULL
+static Position tail = NULL
+
+SkipList
+initialize(void) {
+  SkipList L
+
+  if (bottom == NULL) {
+    bottom = malloc(sizeof(struct SkipNode))
+    if (bottom == NULL) {
+      FatalError('Out of space!!!')
+    }
+
+    tail = malloc(sizeof(struct SkipNode))
+    if (tail == NULL) {
+      FatalError('Out of space!!!')
+    }
+
+    tail->element = Infinity
+    tail->right  = tail
+  }
+
+  // 创建 header
+  l = malloc(sizeof(struct SkipNode))
+  if (l == NULL) {
+    FatalError('Out of space!!!')
+  }
+
+  l->element = Infinity
+  l->right = tail
+  t->down = bottom
+
+  return l
+}
+```
+
+### 确定性跳跃表的查找
+查找很简单
+
+```c++
+Position
+find(ElementType item, SkipList l) {
+  Position current = l
+  
+  bottom->element = item
+  while(item != current->element) {
+    if(item < current->element) {
+      current = current->down
+    } else {
+      current = current->right
+    }
+    return current
+  }
+}
+```
+
+### 确定性跳跃表的插入
+为了执行插入，我们必须保证当一个高度为 h 的新节点加入进来时不会产生具有4个高度为 h 的节点间隙
+
+- 设我们在第 L 层上，并正要下降到下一层去
+- 如果我们要降到的间隙容量是3，那么我们提高该间隙的中间项使其高度为 L，从而形成两个容量为 1 的间隙
+
+如下图插入27的例子
+<img src="./assets/确定性跳跃表插入1.png" width="476" height="243"/>
+<br/>
+<img src="./assets/确定性跳跃表插入2.png" width="495" height="115"/>
+
+下面是插入的代码
+
+```c++
+SkipList
+insert(ElementType item, SkipList l) {
+  Position current = l
+  Position newNode
+
+  while (current != bottom) {
+    while (item > current->element) {
+      current = current->right
+    }
+
+    if (current->element > current->down->right->right->element) {
+      newNode = malloc(sizeof(struct SkipNode))
+      if (newNode == NULL) {
+        FatalError('Out of space!!!')
+      }
+
+      newNode->right = current->right
+      newNode->down = current->down->right->right
+      current->right = newNode
+      newNode->element = current->element
+      current->element - current->down -> right->element
+    } else {
+      current = current->down
+    }
+  }
+
+  if (l->right != tail) {
+    newNode = malloc(sizeof(struct SkipNode))
+    if (newNode == NULL) {
+      FatalError('Out of space!!!')
+    }
+
+    newNode->down = l
+    newNode->right = tail
+    newNode->element = Infinity
+    l = newNode
+  }
+
+  return l 
+}
+```
+
+#### 另一种实现方式
+如果我们把一些项存储在三个元素的一个数组中，那么对于第三项的访问可以直接进行，而不用再通过两个 right 指针,如下图：
+<img src="./assets/确定性跳跃表的另一种实现.png" width="447" height="235"/>
+
+
 
 
 
