@@ -43,4 +43,19 @@
   - [x] [算法设计技巧](./data-structures/alg-design.md)
   - [x] [树的衍生](./data-structures/more-tree.md)
 </details>
+
+<details>
+  <summary>设计模式</summary>
+
+  - [x] [单例模式](./design-pattern/singleton.md)
+  - [x] [数组、链表、栈和队列](./data-structures/list.md)
+  - [x] [树](./data-structures/tree.md)
+  - [x] [散列表](./data-structures/hash-table.md)
+  - [x] [优先队列(堆)](./data-structures/heap.md)
+  - [x] [排序](./data-structures/sorting.md)
+  - [x] [并查集](./data-structures/disjoint-sets.md)
+  - [x] [图论算法](./data-structures/graph.md)
+  - [x] [算法设计技巧](./data-structures/alg-design.md)
+  - [x] [树的衍生](./data-structures/more-tree.md)
+</details>
 <br/>
