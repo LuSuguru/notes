@@ -81,8 +81,8 @@ javaScript 是一门无类的语言，生搬单例模式的概念并无意义
 ```js
 function getSingle(fn) {
   var result
-  return function () {
-    return result || (result = fn.apply(this, arguments))
+  return function (...args) {
+    return result || (result = fn.apply(this, args))
   }
 }
 ```
