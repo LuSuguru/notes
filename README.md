@@ -47,7 +47,7 @@
   - [x] [单例模式](./design-pattern/singleton.md)
   - [x] [策略模式](./design-pattern/strategy.md)
   - [x] [代理模式](./design-pattern/proxy.md)
-  - [x] [迭代模式](./iterator.md)
+  - [x] [迭代器模式](./design-pattern/iterator.md)
   <!--  - [x] [树](./data-structures/tree.md)
   - [x] [散列表](./data-structures/hash-table.md)
   - [x] [优先队列(堆)](./data-structures/heap.md)
