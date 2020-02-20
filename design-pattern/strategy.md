@@ -85,7 +85,7 @@ const strategies = {
 }
 ```
 
-接下来我们需要一个 校验触发器用来做 Context，负责接收用户的请求并委托给 strategy 
+接下来我们需要一个校验触发器用来做 Context，负责接收用户的请求并委托给 strategy 
 
 ```js
 class Validator {
