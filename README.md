@@ -49,6 +49,7 @@
   - [x] [代理模式](./design-pattern/proxy.md)
   - [x] [迭代器模式](./design-pattern/iterator.md)
   - [x] [发布订阅模式](./design-pattern/publish-subscribe.md)
+  - [x] [命令模式](./design-pattern/command.md)
   <!--  - [x] [树](./data-structures/tree.md)
   - [x] [散列表](./data-structures/hash-table.md)
   - [x] [优先队列(堆)](./data-structures/heap.md)
