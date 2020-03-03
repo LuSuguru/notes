@@ -51,5 +51,6 @@
   - [x] [发布订阅模式](./design-pattern/publish-subscribe.md)
   - [x] [命令模式](./design-pattern/command.md)
   - [x] [组合模式](./design-pattern/combo.md)
+  - [x] [模板方法模式](./design-pattern/template.md)
 </details>
 <br/>
