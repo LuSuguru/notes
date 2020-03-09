@@ -54,5 +54,6 @@
   - [x] [模板方法模式](./design-pattern/template.md)
   - [x] [享元模式](./design-pattern/flyweight.md)
   - [x] [职责链模式](./design-pattern/middleware.md)
+  - [x] [中介者模式](./design-pattern/director.md)
 </details>
 <br/>
