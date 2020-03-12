@@ -57,5 +57,6 @@
   - [x] [中介者模式](./design-pattern/director.md)
   - [x] [装饰者模式](./design-pattern/decorator.md)
   - [x] [状态模式](./design-pattern/status.md)
+  - [x] [适配器模式](./design-pattern/wrapper.md)
 </details>
 <br/>
