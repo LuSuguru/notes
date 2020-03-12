@@ -127,11 +127,11 @@ function validataFunc() {
     { strategy: 'minLength:6', errorMsg: '用户名长度不能小于10位' }
   ])
 
-  validator.add(registerForm.password, [
+  validator.add(password, [
     { strategy: 'minLength:6', errorMsg: '密码长度不能小于6位' }
   ])
 
-  validator.add(registerForm.phoneNumber, [
+  validator.add(phoneNumber, [
     { strategy: 'isMobile', errorMsg: '手机号码格式不正确' }
   ])
 
