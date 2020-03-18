@@ -58,6 +58,7 @@
   - [x] [装饰者模式](./design-pattern/decorator.md)
   - [x] [状态模式](./design-pattern/status.md)
   - [x] [适配器模式](./design-pattern/wrapper.md)
-  - [x] [设计原则和编程技巧](./design-pattern/principle.md)
+  - [x] [设计原则](./design-pattern/principle.md)
+  - [x] [重构技巧](./design-pattern/reconstruction.md)
 </details>
 <br/>
