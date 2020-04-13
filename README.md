@@ -24,6 +24,7 @@
   <summary>JavaScript</summary>
 
   - [x] [隐式转换](./javascript/implicit-conversion.md)
+  - [x] [微前端的思考](./javascript/micro-front-end.md)
 </details>
 
 <details>
